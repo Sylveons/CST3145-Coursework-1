@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+
+    <script src="Lessons.js"></script>
+
+</head>
+<body>
+
+    <div id="app">
+        <!-- start app div -->
+            <!-- lesson information -->
+            <img v-bind:src="lesson.image" height="150">
+            <h2>{{ lesson.subject}}</h1>
+                <p>Number of spaces:{{lesson.availableInventory - cartItemCount}}</p>
+                <p>Location: {{lesson.location}}</p>
+                <p>Price: {{lesson.price}}</p>
+    
+                <button @click="addToCart" v-bind:disabled="!canAddToCart">Add to cart <i class="fas fa-shopping-cart"></i></button>
+                   
+                </span>
+        </div> <!-- Stop app div -->
+    
+        <script>
+    
+            let app = new Vue({
+    
+                el: '#app',
+                data: {
+                    lesson: {
+                        id: 200,
+                        subject: obj1.Subject,
+                        location: obj1.Location,
+                        price: obj1.Price,
+                        image: "maths.png",
+                        availableInventory: 5
+                    },
+                    cart: [] // array to store items in shopping cart
+                },
+                methods: {
+                    addToCart: function () {
+                        this.lesson.availableInventory - 1;
+                        this.cart.push(this.lesson.id);
+                    },
+                },
+                computed: {
+                    cartItemCount: function () {
+                        return this.cart.length || '';
+                    },
+                    canAddToCart: function () {
+                        return this.lesson.availableInventory > this.cartItemCount;
+                    }
+                },
+            });
+            
+        </script>
+    
+    </body>
+    
+    </html>
+            
+</body>
+</html>
