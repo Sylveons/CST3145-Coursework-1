@@ -16,8 +16,8 @@
 
     <div id="app">
         <header>
-        <!-- <div v-if='showLesson'></div> -->
-       <h1  v-text="Sitename"></h1>
+        <div v-if='showLesson'></div>
+       <h1  v-text="sitename"></h1>
     </header>
 
     <div v-for="lesson in lessons">   
@@ -28,12 +28,13 @@
 </figure>
           
           <h2 v-text="lesson.Subject"></h2>
-          <p v-text="lesson.Location"></h2>,
-          <p v-text="lesson.Price"></h2>,
+          <p v-html="lesson.Location"></p>
+          <p v-html="lesson.Price"></p>
+         <p v-html= "lesson.Spaces"></p>
 
-        <p>{{lessons.availableInventory}}</p>
+        
 
-        <button v-on:click='addToCart'>Add to cart</button>
+        <button v-on:click='addToCart(lesson)'>Add to cart</button>
         </main>    
 
                 <!-- <button @click="addToCart" v-bind:disabled="!canAddToCart">Add to cart <i class="fas fa-shopping-cart"></i></button> -->
@@ -48,11 +49,9 @@
                 el: '#app',
                 data: {
 
-sitename: 'After School Club Shop',
+sitename: 'After School Clubs',
                 
-                        lessons: {
-                    availableInventory: 5
-                        },
+                      
 
                     lessons: lessons,
                  
@@ -60,23 +59,50 @@ sitename: 'After School Club Shop',
                     showProduct: true,
                 },
                 methods: {
-                    addToCart: function () {
-                        this.lesson.availableInventory - 1;
-                        this.cart.push(this.lesson.id);
+                    addToCart (alesson) {
+                        // this.lesson.Spaces - 1;
+                        this.cart.push(this.alesson.id);
                     },
                 },
-                computed: {
-                    cartItemCount: function () {
-                        return this.cart.length || '';
-                    },
-                    canAddToCart: function () {
-                        return this.lesson.availableInventory > this.cartItemCount;
+
+
+                methods:{
+                    
+
+canAddToCart(lesson) {
+return lesson.Spaces > this.cartCount(lesson.id);
+
+}
+
+                },
+
+cartCount(id) {
+let count = 0;
+for (var i = 0; i < this.cart.length; i++){
+
+    if (this.cart[i] == id) {
+
+        count ++;
+    }
+}
+return count;
                     }
-                },
+
+                    
+                
+                
+                // computed: {
+                //     cartItemCount: function () {
+                //         return this.cart.length || '';
+                //     },
+                //     canAddToCart: function () {
+                //         return this.lesson.Spaces > this.cartItemCount;
+                //     }
+                
 
                 
             });
-          computed: { sortedlessons()  
+          computed: { lessons()  
                 
             function compare(a, b) {
 if (a.price > b.price) return 1;

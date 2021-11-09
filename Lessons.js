@@ -9,7 +9,8 @@
         "Price":"£30",
          "Location":"Wembly",
          "Rating": 4,
-         "Image": "maths.png"
+         "Image": "maths.png",
+         "Spaces": 5
     
     } ,
 
@@ -19,7 +20,8 @@
    "Subject":"French",
     "Price":"£35",
    "Location":"Wembly",
-   "Image": "french.png"
+   "Image": "french.png",
+   "Spaces": 5
 
 
 },
@@ -30,7 +32,8 @@
     "Subject":"Art", 
     "Price":"£20", 
     "Location":"Neasden",
-    "Image": "art.jpg"
+    "Image": "art.jpg",
+    "Spaces": 5
 
 
 },
@@ -40,7 +43,8 @@
      "Subject" : "Spanish",
      "Price":"£35",
      "Location":"Wembly",
-     "Image": "spanish.png"
+     "Image": "spanish.png",
+     "Spaces": 5
 
 
 },
@@ -50,7 +54,8 @@
     "Subject":"Art", 
     "Price":"£30",
     "Location":"Wilesden Green",
-    "Image": "art.jpg"
+    "Image": "art.jpg",
+    "Spaces": 5
 
 },
 
@@ -59,7 +64,8 @@
 "Subject":"English", 
 "Price":"£30",
  "Location":"Wilesden Green",
- "Image": "english.jpg"
+ "Image": "english.jpg",
+ "Spaces": 5
  
 
 },
@@ -69,7 +75,8 @@
     "Subject":"Geography", 
     "Price":"£20", 
     "Location":"Wilesden Green",
-    "Image":"geography.png"
+    "Image":"geography.png",
+    "Spaces": 5
 
 
 },
@@ -78,7 +85,8 @@
 "Subject":"History", 
 "Price":"20", 
 "Location":"Kilburn",
-"Image": "history.png"
+"Image": "history.png",
+"Spaces": 5
 
 },
 
@@ -87,7 +95,8 @@
      "Subject":"Art", 
      "Price":"£30",
       "Location":"Kilburn",
-      "Image": "art.jpg"
+      "Image": "art.jpg",
+      "Spaces": 5
 },
 
 {
@@ -95,7 +104,8 @@
     "Subject":"Maths", 
     "Price":"£30",
      "Location":"Kilburn",
-    "Image": "maths.png"
+    "Image": "maths.png",
+    "Spaces": 5
      
 
 },
