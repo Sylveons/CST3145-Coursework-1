@@ -7,41 +7,54 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
-
     <script src="Lessons.js"></script>
 
 </head>
 <body>
 
+ <main>
+
     <div id="app">
-        <!-- start app div -->
-            <!-- lesson information -->
-            <img v-bind:src="lesson.image" height="150">
-            <h2>{{ lesson.subject}}</h1>
-                <p>Number of spaces:{{lesson.availableInventory - cartItemCount}}</p>
-                <p>Location: {{lesson.location}}</p>
-                <p>Price: {{lesson.price}}</p>
-    
+        <header>
+        <!-- <div v-if='showLesson'></div> -->
+       <h1  v-text="Sitename"></h1>
+    </header>
+
+          <div v-for="lesson in lessons">
+          <h2 v-text="lesson.Subject"></h2>
+          <p v-text="lesson.Location"></h2>
+          <p v-text="lesson.Price"></h2>
+
+        <button v-on:click='addToCart'>Add to cart</button>
+        </main>    
+
                 <button @click="addToCart" v-bind:disabled="!canAddToCart">Add to cart <i class="fas fa-shopping-cart"></i></button>
                    
-                </span>
         </div> <!-- Stop app div -->
-    
+    </div>
         <script>
+
     
             let app = new Vue({
     
                 el: '#app',
                 data: {
-                    lesson: {
-                        id: 200,
-                        subject: obj1.Subject,
-                        location: obj1.Location,
-                        price: obj1.Price,
-                        image: "maths.png",
-                        availableInventory: 5
-                    },
-                    cart: [] // array to store items in shopping cart
+
+sitename: 'After School Club Shop',
+                
+                        lessons: {
+                    id: 200,
+                    Subject: "lesson.Subject",
+                    Location: "lesson.Location",
+                    Price: "lesson.price",
+                    Image: "math.png",
+                    availableInventory: 5
+                        },
+
+                    lessons: lessons,
+                 
+                    cart: [],
+                    showProduct: true,
                 },
                 methods: {
                     addToCart: function () {
@@ -57,9 +70,15 @@
                         return this.lesson.availableInventory > this.cartItemCount;
                     }
                 },
+
+                
             });
             
         </script>
+
+
+    
+  </div>
     
     </body>
     
