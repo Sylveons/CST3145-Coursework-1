@@ -83,7 +83,7 @@
 
 { "id" : 501, 
 "Subject":"History", 
-"Price":"20", 
+"Price":"£20", 
 "Location":"Kilburn",
 "Image": "history.png",
 "Spaces": 5
