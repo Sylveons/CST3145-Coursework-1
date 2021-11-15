@@ -9,6 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
     <script src="Lessons.js"></script>
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
 </head>
 
@@ -34,48 +36,65 @@
 
 
 
-                <button class="add to cart" v-on:click= "addToCart(lesson)" v-bind:disabled="!canAddToCart"
-                >Add to cart</button>
+                <button class="add to cart" v-on:click="addToCart(lesson)" v-bind:disabled="!canAddToCart">Add to
+                    cart</button>
+                    <span v-if="lesson.spaces - cartCount(lesson.id) > 2">
+                        Only {{lesson.spaces - cartCount(lesson.id)}} left!
+                        </span>
+                    
+            </div>
+
+            <button>
+                
+                v-onclick=""
+                <!-- add the cart icon -->
+                <span class="fas fa-cart-plus"></span> Checkout
+                </button>
+                
+
+            <div v-for="lesson in cart">
+                <figure>
+                    <figure>
+                        <img v-bind:src="lesson.Image" height="100px" width="100px">
+                    </figure>
 
 
+  <h2 v-text="lesson.Subject"></h2>
+                   <p v-html="lesson.Location"></p>
+                    <p v-html="lesson.Price"></p>
+                    <p v-html="cartCount(id)"></p>
+                    <button class="add to cart" v-on:click="addToCart(lesson)"> Remove</button>
 
-    </div> 
-    
-    </div>
+                </figure>
+            </div>
 
-    <div id = "app2">
-
-        <div v-if='ShowCheckout'></div>
-        <div v-if="!showLesson"></div>
-
-        <div v-for="lesson in Sortedlessons">
-            <figure>
-                <img v-bind:src="lesson.Image" height="100px" width="100px">
-            </figure>
-
-            <h2 v-text="lesson.Subject"></h2>
-            <p v-html="lesson.Location"></p>
-            <p v-html="lesson.Price"></p>
-            <p v-html="lesson.Spaces"></p>
-
-            <div class="col­md­6">
+            <div v-if='Checkout'></div>
+            <h2>Checkout</h2>
+            <p>
                 <strong>First Name:</strong>
-                <input v­model="order.firstName" 1
-                class="form­control"/>
-                </div>
-                <div class="col­md­6">
+                <!-- This input field is bound to 'firstName' in the 'order' object -->
+                <input v-model="order.firstName" />
+            </p>
+            <p>
                 <strong>Last Name:</strong>
-                <input v­model="order.lastName"
-                class="form­control"/> //#A
-                </div>
-                <div class="col­md­12 verify">
-                <pre>
-                First Name: {{order.firstName}} 2
-                Last Name: {{order.lastName}} 2
-                </pre>
-                </div>
+                <!-- This input field is bound to 'lastName' in the 'order' object -->
+                <input v-model="order.lastName" />
+            </p>
+            <strong>Address:</strong>
+            <!-- This input field is bound to 'lastName' in the 'order' object -->
+            <input v-model="order.Address" />
+            </p>
+            <strong>Phone:</strong>
+            <!-- This input field is bound to 'lastName' in the 'order' object -->
+            <input v-model="order.Phone" />
+            </p>
+            <h2>Order Information</h2>
+            <p>First Name: {{order.firstName}}</p>
+            <p>Last Name: {{order.lastName}}</p>
+            <p>Address: {{order.Address}}</p>
+            <p>Phone: {{order.Phone}}</p>
 
-    </div>
+
     </main>
 
 
@@ -99,9 +118,19 @@
 
                 cart: [],
                 showLesson: true,
+                order: {
+
+                    Checkout: false,
+
+                    firstName: '',
+                    lastName: '',
+                    Address: '',
+                    Phone: ''
+                },
+
             },
 
-           
+
 
 
             methods: {
@@ -109,28 +138,34 @@
                 addToCart(lesson) {
                     lesson.Spaces - 1;
 
-                    {this.cart.push(lesson.id);}
-                   
-            },
-
-
-                canAddToCart(lesson) {
-                    return lesson.Spaces > this.cartCount(lesson.id);
+                    { this.cart.push(lesson); }
 
                 },
 
-                
-            cartCount(id) {
-                let count = 0;
-                for (var i = 0; i < this.cart.length; i++) {
 
-                    if (this.cart[i] == id) {
+                canAddToCart(lesson) {
+                    return lesson.Spaces > this.cartCount(lesson);
 
-                        count++;
+                },
+
+
+                cartCount(id) {
+                    let count = 0;
+                    for (var i = 0; i < this.cart.length; i++) {
+
+                        if (this.cart[i] == id) {
+
+                            count++;
+                        }
                     }
+                    return count;
+                },
+
+                remove(lesson){
+
+                    lesson.Spaces +1;
+                    {this.cart.splice(lesson);}
                 }
-                return count;
-            },
 
 
 
@@ -165,24 +200,8 @@
             }
 
         })
-let app2 = new Vue({
-
-    el: '#app2',
-
-    data:{
-
-        ShowCheckout: true,
-        ShowLesson:false,
-order: {
-firstName: '',
-lastName: '',
-Address: '',
-Phone: ''
-},
 
 
-    },
-})
 
 
     </script>
