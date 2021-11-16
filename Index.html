@@ -26,7 +26,7 @@
                 </header>
                 <label for="Sort">Sort By Price:</label>
 
-                <select name="Sort" id="sort" onchange="Sortedlessons()">
+                <select name="Sort" id="sort">
                     <option value="0">Lowest</option>
                     <option value="1">Highest</option>
                 </select>
@@ -58,32 +58,17 @@
 
 
 
-            <button class="checkoutbutton" onclick="showcheckout()"  v-bind:disabled="cart.length === 0">
+            <button class="checkoutbutton" v-on:click="showCheckout()"  v-bind:disabled="cart.length === 0">
                 <!-- add the cart icon -->
                 <span class="fas fa-cart-plus"></span> Checkout
             </button>
 
 
-            <div v-for="lesson in cart">
-                <figure>
-                    <figure>
-                        <img v-bind:src="lesson.Image" height="100px" width="100px">
-                    </figure>
-
-
-                    <h2 v-text="lesson.Subject"></h2>
-                    <p v-html="lesson.Location"></p>
-                    <p v-html="lesson.Price"></p>
-                    <p v-html="cartCount(lesson)"></p>
-
-                    <button class="add to cart" v-on:click="remove(lesson)"> Remove</button>
-
-                </figure>
-            </div>
-
-            <div v-if='Checkout'>
+          
+            <div v-if='!showLesson'>
 
                 <h2>Checkout</h2>
+                <button class="back" v-on:click="showCheckout()"> Back </button>
                 <p>
                     <strong>First Name:</strong>
                     <!-- This input field is bound to 'firstName' in the 'order' object -->
@@ -106,7 +91,27 @@
                 <p>Phone: {{order.Phone}}</p>
 
             </div>
+
+            <div v-for="lesson in cart">
+                <figure>
+                    <figure>
+                        <img v-bind:src="lesson.Image" height="100px" width="100px">
+                    </figure>
+
+
+                    <h2 v-text="lesson.Subject"></h2>
+                    <p v-html="lesson.Location"></p>
+                    <p v-html="lesson.Price"></p>
+                    <p v-html="cartCount(lesson)"></p>
+
+                    <button class="add to cart" v-on:click="remove(lesson)"> Remove</button>
+
+                </figure>
+            </div>
+
         </main>
+
+        
 
 
 
@@ -184,7 +189,15 @@
 
 
 
-                   
+                    showCheckout() {
+
+                        this.showLesson = this.showLesson ? false : true;
+                        
+
+
+                        console.log(Checkout)
+
+                    },
 
 
 
@@ -240,13 +253,7 @@
 
                     },
 
-                    showCheckout() {
-                        showLesson = !ShowLesson
-                        Checkout = !Checkout
-
-                        console.log(Checkout)
-
-                    },
+                    
 
 
                     
