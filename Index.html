@@ -26,9 +26,9 @@
                 </header>
                 <label for="Sort">Sort By Price:</label>
 
-                <select name="Sort" id="sort">
-                    <option value="Highest">Highest</option>
-                    <option value="Lowest">Lowest</option>
+                <select name="Sort" id="sort" onchange="Sortedlessons()">
+                    <option value="0">Lowest</option>
+                    <option value="1">Highest</option>
                 </select>
 
 
@@ -44,7 +44,7 @@
 
 
 
-                    <button class="add to cart" v-on:click="addToCart(lesson)" v-bind:disabled="!canAddToCart">Add to
+                    <button class="add to cart" v-on:click="addToCart(lesson)" v-bind:disabled="lesson.Spaces === 0 ">Add to
                         cart</button>
                     <span>Buy Now!</span>
                     <span v-if='lesson.spaces === cartCount(lesson)'>All out!
@@ -57,30 +57,31 @@
             </d>
 
 
-            <div v-­else>
-                <button class="checkout" v-­on:click="showCheckout" v-bind:disabled="!CartItems">
-                    <!-- add the cart icon -->
-                    <span class="fas fa-cart-plus"></span> Checkout
-                </button>
+
+            <button class="checkoutbutton" onclick="showcheckout()"  v-bind:disabled="cart.length === 0">
+                <!-- add the cart icon -->
+                <span class="fas fa-cart-plus"></span> Checkout
+            </button>
 
 
-                <div v-for="lesson in cart">
+            <div v-for="lesson in cart">
+                <figure>
                     <figure>
-                        <figure>
-                            <img v-bind:src="lesson.Image" height="100px" width="100px">
-                        </figure>
-
-
-                        <h2 v-text="lesson.Subject"></h2>
-                        <p v-html="lesson.Location"></p>
-                        <p v-html="lesson.Price"></p>
-                        <p v-html="cartCount(lesson)"></p>
-
-                        <button class="add to cart" v-on:click="remove(lesson)"> Remove</button>
-
+                        <img v-bind:src="lesson.Image" height="100px" width="100px">
                     </figure>
-                </div>
 
+
+                    <h2 v-text="lesson.Subject"></h2>
+                    <p v-html="lesson.Location"></p>
+                    <p v-html="lesson.Price"></p>
+                    <p v-html="cartCount(lesson)"></p>
+
+                    <button class="add to cart" v-on:click="remove(lesson)"> Remove</button>
+
+                </figure>
+            </div>
+
+            <div v-if='Checkout'>
 
                 <h2>Checkout</h2>
                 <p>
@@ -127,10 +128,12 @@
                     lessons: lessons,
 
                     cart: [],
+
+                    Checkout: false,
                     showLesson: true,
                     order: {
 
-                        Checkout: false,
+
 
                         firstName: '',
                         lastName: '',
@@ -179,19 +182,9 @@
                     },
 
 
-                    CartItems(lesson) {
-
-                        return cart.length > 0
 
 
-                    },
-
-
-                    showCheckout() {
-                        this.showLesson = this.showLesson ? false : true;
-
-
-                    },
+                   
 
 
 
@@ -205,16 +198,16 @@
                 computed: {
                     Sortedlessons() {
 
-                        
+
                         var sorting = document.getElementById("sort");
-                        var value = sorting.options[sorting.selectedIndex].value;                        
+                        var value = sorting.options[sorting.selectedIndex].value;
 
-                        if (value == "Lowest") {
+                        if (value == "0") {
 
                             if (this.lessons.length > 0) {
                                 let lessonsArray = this.lessons.slice(0);
                                 function compare(a, b) {
-                                    2
+
                                     if (a.Price.toLowerCase() < b.Price.toLowerCase())
                                         return -1;
                                     if (a.Price.toLowerCase() > b.Price.toLowerCase())
@@ -224,11 +217,13 @@
                                 return lessonsArray.sort(compare);
                             }
                         }
-                        if (value == "Highest") {
+
+
+                        else if (value == "1") {
                             if (this.lessons.length > 0) {
                                 let lessonsArray = this.lessons.slice(0);
                                 function compare(a, b) {
-                                    2
+
                                     if (a.Price.toLowerCase() > b.Price.toLowerCase())
                                         return -1;
                                     if (a.Price.toLowerCase() < b.Price.toLowerCase())
@@ -236,16 +231,29 @@
                                     return 0;
                                 }
                                 return lessonsArray.sort(compare);
+
                             }
+
                         }
+
+
+
+                    },
+
+                    showCheckout() {
+                        showLesson = !ShowLesson
+                        Checkout = !Checkout
+
+                        console.log(Checkout)
+
+                    },
+
 
                     
-
                 }
-            }
-            
 
-                })
+
+            })
 
 
 
