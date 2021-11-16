@@ -9,202 +9,248 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
     <script src="Lessons.js"></script>
-    <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
 </head>
 
 <body>
-
-    <main>
-
-        <div id="app">
-            <header>
-                <div v-if='showLesson'></div>
-                <h1 v-text="sitename"></h1>
-            </header>
-
-            <div v-for="lesson in Sortedlessons">
-                <figure>
-                    <img v-bind:src="lesson.Image" height="100px" width="100px">
-                </figure>
-
-                <h2 v-text="lesson.Subject"></h2>
-                <p v-html="lesson.Location"></p>
-                <p v-html="lesson.Price"></p>
-                <p v-html="lesson.Spaces"></p>
+    <div id="app">
+        <main>
 
 
+            <div v-if='showLesson'>
 
-                <button class="add to cart" v-on:click="addToCart(lesson)" v-bind:disabled="!canAddToCart">Add to
-                    cart</button>
-                    <span v-if="lesson.spaces - cartCount(lesson.id) > 2">
-                        Only {{lesson.spaces - cartCount(lesson.id)}} left!
-                        </span>
-                    
-            </div>
+                <header>
 
-            <button>
-                
-                v-onclick=""
-                <!-- add the cart icon -->
-                <span class="fas fa-cart-plus"></span> Checkout
-                </button>
-                
+                    <h1 v-text="sitename"></h1>
+                </header>
+                <label for="Sort">Sort By Price:</label>
 
-            <div v-for="lesson in cart">
-                <figure>
+                <select name="Sort" id="sort">
+                    <option value="Highest">Highest</option>
+                    <option value="Lowest">Lowest</option>
+                </select>
+
+
+                <div v-for="lesson in Sortedlessons">
                     <figure>
                         <img v-bind:src="lesson.Image" height="100px" width="100px">
                     </figure>
 
-
-  <h2 v-text="lesson.Subject"></h2>
-                   <p v-html="lesson.Location"></p>
+                    <h2 v-text="lesson.Subject"></h2>
+                    <p v-html="lesson.Location"></p>
                     <p v-html="lesson.Price"></p>
-                    <p v-html="cartCount(id)"></p>
-                    <button class="add to cart" v-on:click="addToCart(lesson)"> Remove</button>
+                    <p v-html="lesson.Spaces"></p>
 
-                </figure>
+
+
+                    <button class="add to cart" v-on:click="addToCart(lesson)" v-bind:disabled="!canAddToCart">Add to
+                        cart</button>
+                    <span>Buy Now!</span>
+                    <span v-if='lesson.spaces === cartCount(lesson)'>All out!
+                        Only 1 Space left!
+                    </span>
+
+                </div>
+
             </div>
+            </d>
 
-            <div v-if='Checkout'></div>
-            <h2>Checkout</h2>
-            <p>
-                <strong>First Name:</strong>
-                <!-- This input field is bound to 'firstName' in the 'order' object -->
-                <input v-model="order.firstName" />
-            </p>
-            <p>
-                <strong>Last Name:</strong>
+
+            <div v-­else>
+                <button class="checkout" v-­on:click="showCheckout" v-bind:disabled="!CartItems">
+                    <!-- add the cart icon -->
+                    <span class="fas fa-cart-plus"></span> Checkout
+                </button>
+
+
+                <div v-for="lesson in cart">
+                    <figure>
+                        <figure>
+                            <img v-bind:src="lesson.Image" height="100px" width="100px">
+                        </figure>
+
+
+                        <h2 v-text="lesson.Subject"></h2>
+                        <p v-html="lesson.Location"></p>
+                        <p v-html="lesson.Price"></p>
+                        <p v-html="cartCount(lesson)"></p>
+
+                        <button class="add to cart" v-on:click="remove(lesson)"> Remove</button>
+
+                    </figure>
+                </div>
+
+
+                <h2>Checkout</h2>
+                <p>
+                    <strong>First Name:</strong>
+                    <!-- This input field is bound to 'firstName' in the 'order' object -->
+                    <input v-model="order.firstName" />
+                </p>
+                <p>
+                    <strong>Last Name:</strong>
+                    <!-- This input field is bound to 'lastName' in the 'order' object -->
+                    <input v-model="order.lastName" />
+                </p>
+
+                <strong>Phone:</strong>
                 <!-- This input field is bound to 'lastName' in the 'order' object -->
-                <input v-model="order.lastName" />
-            </p>
-            <strong>Address:</strong>
-            <!-- This input field is bound to 'lastName' in the 'order' object -->
-            <input v-model="order.Address" />
-            </p>
-            <strong>Phone:</strong>
-            <!-- This input field is bound to 'lastName' in the 'order' object -->
-            <input v-model="order.Phone" />
-            </p>
-            <h2>Order Information</h2>
-            <p>First Name: {{order.firstName}}</p>
-            <p>Last Name: {{order.lastName}}</p>
-            <p>Address: {{order.Address}}</p>
-            <p>Phone: {{order.Phone}}</p>
+                <input v-model="order.Phone" />
+                </p>
+                <h2>Order Information</h2>
+                <p>First Name: {{order.firstName}}</p>
+                <p>Last Name: {{order.lastName}}</p>
 
+                <p>Phone: {{order.Phone}}</p>
 
-    </main>
+            </div>
+        </main>
 
 
 
 
 
 
-    <script>
+        <script>
 
 
-        let app = new Vue({
+            let app = new Vue({
 
-            el: '#app',
-            data: {
+                el: '#app',
+                data: {
 
-                sitename: 'After School Clubs',
-
-
-
-                lessons: lessons,
-
-                cart: [],
-                showLesson: true,
-                order: {
-
-                    Checkout: false,
-
-                    firstName: '',
-                    lastName: '',
-                    Address: '',
-                    Phone: ''
-                },
-
-            },
+                    sitename: 'After School Clubs',
 
 
 
+                    lessons: lessons,
 
-            methods: {
+                    cart: [],
+                    showLesson: true,
+                    order: {
 
-                addToCart(lesson) {
-                    lesson.Spaces - 1;
+                        Checkout: false,
 
-                    { this.cart.push(lesson); }
+                        firstName: '',
+                        lastName: '',
+                        Address: '',
+                        Phone: ''
+                    },
 
                 },
 
 
-                canAddToCart(lesson) {
-                    return lesson.Spaces > this.cartCount(lesson);
-
-                },
 
 
-                cartCount(id) {
-                    let count = 0;
-                    for (var i = 0; i < this.cart.length; i++) {
+                methods: {
 
-                        if (this.cart[i] == id) {
+                    addToCart(lesson) {
 
-                            count++;
+                        lesson.Spaces--;
+
+                        { this.cart.push(lesson); }
+
+                    },
+
+
+                    canAddToCart(lesson) {
+                        return lesson.Spaces > this.cartCount(lesson);
+
+                    },
+
+
+                    cartCount(lesson) {
+                        let count = 0;
+                        for (var i = 0; i < this.cart.length; i++) {
+
+                            if (this.cart[i] == lesson) {
+
+                                count++;
+                            }
                         }
-                    }
-                    return count;
+                        return count;
+                    },
+
+                    remove(lesson) {
+
+                        lesson.Spaces++;
+                        { this.cart.splice(lesson); }
+                    },
+
+
+                    CartItems(lesson) {
+
+                        return cart.length > 0
+
+
+                    },
+
+
+                    showCheckout() {
+                        this.showLesson = this.showLesson ? false : true;
+
+
+                    },
+
+
+
                 },
 
-                remove(lesson){
-
-                    lesson.Spaces +1;
-                    {this.cart.splice(lesson);}
-                }
-
-
-
-            },
 
 
 
 
 
+                computed: {
+                    Sortedlessons() {
 
+                        
+                        var sorting = document.getElementById("sort");
+                        var value = sorting.options[sorting.selectedIndex].value;                        
 
+                        if (value == "Lowest") {
 
-
-
-            computed: {
-                Sortedlessons() {
-
-                    if (this.lessons.length > 0) {
-                        let lessonsArray = this.lessons.slice(0);
-                        function compare(a, b) {
-                            2
-                            if (a.Price.toLowerCase() < b.Price.toLowerCase())
-                                return -1;
-                            if (a.Price.toLowerCase() > b.Price.toLowerCase())
-                                return 1;
-                            return 0;
+                            if (this.lessons.length > 0) {
+                                let lessonsArray = this.lessons.slice(0);
+                                function compare(a, b) {
+                                    2
+                                    if (a.Price.toLowerCase() < b.Price.toLowerCase())
+                                        return -1;
+                                    if (a.Price.toLowerCase() > b.Price.toLowerCase())
+                                        return 1;
+                                    return 0;
+                                }
+                                return lessonsArray.sort(compare);
+                            }
                         }
-                        return lessonsArray.sort(compare);
-                    }
-                }
+                        if (value == "Highest") {
+                            if (this.lessons.length > 0) {
+                                let lessonsArray = this.lessons.slice(0);
+                                function compare(a, b) {
+                                    2
+                                    if (a.Price.toLowerCase() > b.Price.toLowerCase())
+                                        return -1;
+                                    if (a.Price.toLowerCase() < b.Price.toLowerCase())
+                                        return 1;
+                                    return 0;
+                                }
+                                return lessonsArray.sort(compare);
+                            }
+                        }
 
+                    
+
+                }
             }
+            
 
-        })
+                })
 
 
 
 
-    </script>
+        </script>
 
 
 
