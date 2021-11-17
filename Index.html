@@ -118,6 +118,13 @@
             <div v-if='Checkout'>
 
                 <h2>Checkout</h2>
+
+                <p v-if="errors.length">
+                    <b>Please correct the following error(s):</b>
+                    <ul>
+                      <li v-for="error in errors">{{ error }}</li>
+                    </ul>
+                  </p>
                
                 <p>
                     <strong>First Name:</strong>
@@ -140,28 +147,30 @@
 
                 <p>Phone: {{order.Phone}}</p>
 
-            </div>
-
-            <div v-for="lesson in cart">
-                <figure>
+                <button class="Confirm" v-on:click="Validation()"> Confirm</button>
+                <div v-for="lesson in cart">
                     <figure>
-                        <img v-bind:src="lesson.Image" height="100px" width="100px">
+                        <figure>
+                            <img v-bind:src="lesson.Image" height="100px" width="100px">
+                        </figure>
+    
+    
+                        <h2 v-text="lesson.Subject"></h2>
+                        <p v-html="lesson.Location"></p>
+                        <p v-html="lesson.Price"></p>
+                        <p v-html="cartCount(lesson)"></p>
+    
+                        <button class="add to cart" v-on:click="remove(lesson)"> Remove</button>
+    
                     </figure>
-
-
-                    <h2 v-text="lesson.Subject"></h2>
-                    <p v-html="lesson.Location"></p>
-                    <p v-html="lesson.Price"></p>
-                    <p v-html="cartCount(lesson)"></p>
-
-                    <button class="add to cart" v-on:click="remove(lesson)"> Remove</button>
-
-                </figure>
+                </div>
+    
+            </main>
+    
+    
             </div>
 
-        </main>
-
-
+            
 
 
 
@@ -183,6 +192,7 @@
                     lessons: lessons,
 
                     cart: [],
+                    errors: [],
 
                     Checkout: false,
                     showLesson: true,
@@ -191,10 +201,9 @@
 
 
 
-                        firstName: '',
-                        lastName: '',
-                        Address: '',
-                        Phone: ''
+                        firstName: null,
+                        lastName: null,
+                        Phone: null,
                     },
 
                 },
@@ -256,6 +265,34 @@
                         this.showLesson = this.showLesson ? false : true;
 
 
+                    },
+
+                    Validation(){
+
+                        if (this.firstName && this.lastName && this.Phone) {
+        return true;
+      }
+
+      this.errors = [];
+
+      if (!this.order.firstName) {
+        this.errors.push('First Name required.');
+      }
+      if (!this.order.lastName) {
+        this.errors.push('Last Name required.');
+
+      }  
+      if (!this.order.Phone) {
+        this.errors.push('Phone Number required.');
+      }  
+
+      regex = new Regex("bitch");
+       
+      if (!this.Phone.match(regex)) {
+        this.errors.push('Phone Number must only contain numbers.');;
+}
+
+                        
                     }
 
                 },
