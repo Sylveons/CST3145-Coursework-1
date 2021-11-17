@@ -272,28 +272,47 @@
                         if (this.firstName && this.lastName && this.Phone) {
         return true;
       }
-
+      var numbers = /^[0-9]+$/;
+      var letters = /^[A-Za-z]+$/;
+       
       this.errors = [];
 
       if (!this.order.firstName) {
         this.errors.push('First Name required.');
       }
+
+      if (!this.order.firstName.match(letters)) {
+        this.errors.push('First Name must only contain letters.');
+}
+
+      
       if (!this.order.lastName) {
         this.errors.push('Last Name required.');
 
       }  
+
+      if (!this.order.lastName.match(letters)) {
+        this.errors.push('Last Name must only contain letters.');
+}
       if (!this.order.Phone) {
         this.errors.push('Phone Number required.');
       }  
 
-      regex = new Regex("bitch");
-       
-      if (!this.Phone.match(regex)) {
-        this.errors.push('Phone Number must only contain numbers.');;
+      
+      if (!this.order.Phone.match(numbers)) {
+        this.errors.push('Phone Number must only contain numbers.');
 }
 
                         
-                    }
+                    
+
+    if(this.errors.length === 0){
+       
+        alert("Order Confirmed!");
+
+
+    }
+    }               
 
                 },
 
