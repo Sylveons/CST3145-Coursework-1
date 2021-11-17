@@ -26,10 +26,9 @@
                 </header>
                 <label for="Sort">Sort By Price:</label>
 
-                <select name="Sort" id="sort">
-                    <option value="0">Lowest</option>
-                    <option value="1">Highest</option>
-                </select>
+                <button class="highest" v-on:click="SortH()" v-bind:disabled="showLesson2===true">Highest</button>
+                <button class="Lowest" v-bind:disabled="showLesson===true">Lowest</button>
+
 
 
                 <div v-for="lesson in Sortedlessons">
@@ -44,31 +43,82 @@
 
 
 
-                    <button class="add to cart" v-on:click="addToCart(lesson)" v-bind:disabled="lesson.Spaces === 0 ">Add to
+                    <button class="add to cart" v-on:click="addToCart(lesson)"
+                        v-bind:disabled="lesson.Spaces === 0 ">Add to
                         cart</button>
-                    <span>Buy Now!</span>
-                    <span v-if='lesson.spaces === cartCount(lesson)'>All out!
+                    <span>Buy Now! <i class="fas fa-star"></i></span>
+
+                    <span v-if='lesson.spaces === 0'>All out!
                         Only 1 Space left!
                     </span>
 
+
                 </div>
 
+
+                <button class="checkoutbutton" v-on:click="showCheckout()" v-bind:disabled="cart.length === 0">
+                    <!-- add the cart icon -->
+                    <span class="fas fa-cart-plus"></span> Checkout
+                </button>
+
             </div>
-            </d>
 
 
 
-            <button class="checkoutbutton" v-on:click="showCheckout()"  v-bind:disabled="cart.length === 0">
-                <!-- add the cart icon -->
-                <span class="fas fa-cart-plus"></span> Checkout
-            </button>
+            <div v-if='showLesson2'>
+
+                <header>
+
+                    <h1 v-text="sitename"></h1>
+                </header>
+                <label for="Sort">Sort By Price:</label>
+
+                <button class="highest" v-on:click="SortH()" v-bind:disabled="showLesson2===true">Highest</button>
+                <button class="Lowest" v-on:click="SortH()" v-bind:disabled="showLesson===true">Lowest</button>
 
 
-          
-            <div v-if='!showLesson'>
+                <div v-for="lesson in Sortedlessons2">
+                    <figure>
+                        <img v-bind:src="lesson.Image" height="100px" width="100px">
+                    </figure>
+
+                    <h2 v-text="lesson.Subject"></h2>
+                    <p v-html="lesson.Location"></p>
+                    <p v-html="lesson.Price"></p>
+                    <p v-html="lesson.Spaces"></p>
+
+
+
+                    <button class="add to cart" v-on:click="addToCart(lesson)"
+                        v-bind:disabled="lesson.Spaces === 0 ">Add to
+                        cart</button>
+                    <span>Buy Now! <i class="fas fa-star"></i></span>
+
+                    <span v-if='lesson.spaces === 0'>All out!
+                        Only 1 Space left!
+                    </span>
+
+
+                </div>
+
+
+                <button class="checkoutbutton" v-on:click="showCheckout()" v-bind:disabled="cart.length === 0">
+                    <!-- add the cart icon -->
+                    <span class="fas fa-cart-plus"></span> Checkout
+                </button>
+
+            </div>
+
+
+
+
+
+
+
+            <div v-if='Checkout'>
 
                 <h2>Checkout</h2>
-                <button class="back" v-on:click="showCheckout()"> Back </button>
+               
                 <p>
                     <strong>First Name:</strong>
                     <!-- This input field is bound to 'firstName' in the 'order' object -->
@@ -111,7 +161,7 @@
 
         </main>
 
-        
+
 
 
 
@@ -136,6 +186,7 @@
 
                     Checkout: false,
                     showLesson: true,
+                    showLesson2: false,
                     order: {
 
 
@@ -191,15 +242,21 @@
 
                     showCheckout() {
 
-                        this.showLesson = this.showLesson ? false : true;
-                        
+                        this.Checkout = this.Checkout ? false : true;
 
 
-                        console.log(Checkout)
+
 
                     },
 
+                    SortH() {
 
+
+                        this.showLesson2 = this.showLesson2 ? false : true;
+                        this.showLesson = this.showLesson ? false : true;
+
+
+                    }
 
                 },
 
@@ -212,52 +269,51 @@
                     Sortedlessons() {
 
 
-                        var sorting = document.getElementById("sort");
-                        var value = sorting.options[sorting.selectedIndex].value;
 
-                        if (value == "0") {
 
-                            if (this.lessons.length > 0) {
-                                let lessonsArray = this.lessons.slice(0);
-                                function compare(a, b) {
+                        if (this.lessons.length > 0) {
+                            let lessonsArray = this.lessons.slice(0);
+                            function compare(a, b) {
 
-                                    if (a.Price.toLowerCase() < b.Price.toLowerCase())
-                                        return -1;
-                                    if (a.Price.toLowerCase() > b.Price.toLowerCase())
-                                        return 1;
-                                    return 0;
-                                }
-                                return lessonsArray.sort(compare);
+                                if (a.Price.toLowerCase() < b.Price.toLowerCase())
+                                    return -1;
+                                if (a.Price.toLowerCase() > b.Price.toLowerCase())
+                                    return 1;
+                                return 0;
                             }
+                            return lessonsArray.sort(compare);
                         }
-
-
-                        else if (value == "1") {
-                            if (this.lessons.length > 0) {
-                                let lessonsArray = this.lessons.slice(0);
-                                function compare(a, b) {
-
-                                    if (a.Price.toLowerCase() > b.Price.toLowerCase())
-                                        return -1;
-                                    if (a.Price.toLowerCase() < b.Price.toLowerCase())
-                                        return 1;
-                                    return 0;
-                                }
-                                return lessonsArray.sort(compare);
-
-                            }
-
-                        }
-
-
 
                     },
 
-                    
+
+                    Sortedlessons2() {
 
 
-                    
-                }
+                        let lessonsArray = this.lessons.slice(0);
+                        function compare(a, b) {
+
+                            if (a.Price.toLowerCase() > b.Price.toLowerCase())
+                                return -1;
+                            if (a.Price.toLowerCase() < b.Price.toLowerCase())
+                                return 1;
+                            return 0;
+                        }
+                        return lessonsArray.sort(compare);
+
+                    },
+
+
+
+
+
+                },
+
+
+
+
+
+
 
 
             })
